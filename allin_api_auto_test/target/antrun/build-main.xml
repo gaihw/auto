@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <echo>Using env-test.properties</echo>
+  <copy file="src/main/resources/env-test.yaml" tofile="C:\work\git\auto\allin_api_auto_test\target\classes/env.yaml" overwrite="true"/>
+  <copy file="src/main/resources/env-test.yaml" tofile="src/main/resources/env.yaml" overwrite="true"/>
+</target>
+</project>
