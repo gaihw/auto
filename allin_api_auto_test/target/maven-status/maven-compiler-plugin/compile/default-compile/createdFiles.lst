@@ -1,14 +1,11 @@
-com\test\cases\Demo.class
+com\test\utils\YamlUtils.class
 com\test\utils\ProLoading.class
 com\test\utils\ExtentTestNGIReporterListener$1.class
 com\test\utils\ExtentTestNGIReporterListenerTomcat$1.class
+com\test\utils\MysqlUtils.class
 com\test\cases\LoginTest.class
 com\test\config\Config.class
 com\test\utils\ExtentTestNGIReporterListenerTomcat.class
-com\test\utils\BaseUtils.class
 com\test\utils\ExtentTestNGIReporterListener.class
-com\test\utils\MysqlDataBase.class
 com\test\utils\SendMail.class
-com\test\EnvEntity.class
-com\test\utils\SendMail$1.class
 com\test\cases\Logdemo.class

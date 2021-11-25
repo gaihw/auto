@@ -2,13 +2,13 @@ package com.test.utils;
 
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.util.Date;
 import java.util.Properties;
 
 public class SendMail {
-	private static String from = String.valueOf(YamlConfig.instance.getValueByKey("email.account"));// 发件人的邮箱地址
-	private static String user = String.valueOf(YamlConfig.instance.getValueByKey("email.account"));// 发件人称号，同邮箱地址
-	private static String password = String.valueOf(YamlConfig.instance.getValueByKey("email.password"));// 发件人邮箱客户端的授权码
+	public static YamlUtils instance = new YamlUtils();
+	private static String from = String.valueOf(instance.getValueByKey("email.account"));// 发件人的邮箱地址
+	private static String user = String.valueOf(instance.getValueByKey("email.account"));// 发件人称号，同邮箱地址
+	private static String password = String.valueOf(instance.getValueByKey("email.password"));// 发件人邮箱客户端的授权码
 
 	/* 发送验证信息的邮件 */
 	public static boolean sendMail() {
@@ -22,9 +22,9 @@ public class SendMail {
 		MimeMessage message = new MimeMessage(session); // 加载发件人地址
 		try {
 			message.setFrom(new InternetAddress(from));
-			InternetAddress[] internetAddressTo = InternetAddress.parse(String.valueOf(YamlConfig.instance.getValueByKey("email.receiverList")));
+			InternetAddress[] internetAddressTo = InternetAddress.parse(String.valueOf(instance.getValueByKey("email.receiverList")));
 			message.setRecipients(Message.RecipientType.TO, internetAddressTo);
-			message.setSubject(String.valueOf(YamlConfig.instance.getValueByKey("email.subject"))); // 加载标题
+			message.setSubject(String.valueOf(instance.getValueByKey("email.subject"))); // 加载标题
 			Multipart multipart = new MimeMultipart(); // 向multipart对象中添加邮件的各个部分内容，包括文本内容和附件
 			BodyPart contentPart = new MimeBodyPart(); // 设置邮件的文本内容
 			contentPart.setContent("<h3 style=\"text-align:center;\"><br>自动化测试报告地址：<br/></h3><p style=\"text-align:center;\">http://192.168.112.66:8081/report/index.html</p>", "text/html;charset=utf-8");

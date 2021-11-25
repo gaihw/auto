@@ -1,20 +1,39 @@
-#账号设置
-acount:
-  phone_number: 13020071928
-  phone_password: 1302071928
+#基础设置
+test:
+  #账号设置
+  acount:
+    phone_number: 13020071928
+    phone_password: Ab123__
+  appId: data-governance
+  #域名
+  ip:
+    #治理平台域名
+    dg_ip: dg-test.allintechinc.com
+
+  #接口
+  path:
+    #获取captcha
+    captcha: /sso/api/v1/captcha/number
+    #登录
+    login: /sso/api/v1/login
+
+#testng配置
+testng:
+  max_retry_num: 3
 
 #报告路径
 report:
   report_tomcat_path: C:\work\git\auto\allin_api_auto_test\report\
   report_path: C:\work\git\auto\allin_api_auto_test\report\
+  report_name: 自动化测试报告
 
 #数据库配置
-database:
-  base:
-    datebase: 10.90.0.102
+base:
+  database:
+    driver-class-name: com.mysql.jdbc.Driver
+    jdbc-url: jdbc:mysql://10.90.0.102:3306?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: root
     password: 123456
-
 
 #邮件发送配置
 email:

@@ -1,5 +1,6 @@
 package com.test.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -12,12 +13,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class BaseUtils extends FeedTest {
-    static {
-        System.setProperty("fileName", "baseUtils/log.txt");
-    }
-    public static Logger log = LoggerFactory.getLogger(BaseUtils.class);
+public class HttpUtils extends FeedTest {
+    public static Logger log = LoggerFactory.getLogger(HttpUtils.class);
     public static HttpClient client = new HttpClient();
     public static PostMethod post ;
     public static GetMethod get;
@@ -29,6 +30,35 @@ public class BaseUtils extends FeedTest {
      */
     public static String get(String url){
         get = new GetMethod(url) ;
+        try {
+            int code = client.executeMethod(get);
+            InputStream respone = get.getResponseBodyAsStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(respone));
+            String tempbf;
+            StringBuffer re=new StringBuffer(100);
+            while((tempbf=br.readLine())!=null){
+                re.append(tempbf);
+            }
+            return re.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * get方法
+     * @param url
+     * @return
+     */
+    public static String get(String url,HashMap<String,String> authorization){
+        get = new GetMethod(url) ;
+        if (!authorization.isEmpty()){
+            for (Map.Entry<String,String> e : authorization.entrySet()){
+                get.setRequestHeader(e.getKey(),e.getValue());
+            }
+
+        }
         try {
             int code = client.executeMethod(get);
             InputStream respone = get.getResponseBodyAsStream();
@@ -84,7 +114,7 @@ public class BaseUtils extends FeedTest {
      * @param params
      * @return
      */
-    public static String postByJson(String url,String authorization, String params){
+    public static String postByJson(String url, HashMap<String,String> authorization, String params){
         post = new PostMethod(url) ;
         RequestEntity se = null;
         try {
@@ -94,10 +124,18 @@ public class BaseUtils extends FeedTest {
         }
         post.setRequestEntity(se);
         post.setRequestHeader("Content-Type","application/json");
-        post.setRequestHeader("Authorization","Basic "+authorization);
+        if (!authorization.isEmpty()){
+            for (Map.Entry<String,String> e : authorization.entrySet()){
+                post.setRequestHeader(e.getKey(),e.getValue());
+            }
+
+        }
         try {
 //            System.out.println("开始："+df.format(new Date()));// new Date()为获取当前系统时间
             int code = client.executeMethod(post);
+//            if (code != 200){
+//                return String.valueOf(code);
+//            }
 //            System.out.println("结束："+df.format(new Date()));// new Date()为获取当前系统时间
             InputStream respone = post.getResponseBodyAsStream();
 //            System.out.println("结束："+df.format(new Date()));// new Date()为获取当前系统时间
@@ -169,11 +207,11 @@ public class BaseUtils extends FeedTest {
     /**
      * 文本参数
      * @param url
-     * @param creb
+     * @param authorization
      * @param text
      * @return
      */
-    public static String postByText(String url,String creb,String text){
+    public static String postByText(String url,HashMap<String,String> authorization,String text){
         post = new PostMethod(url) ;
         RequestEntity se = null;
         try {
@@ -183,7 +221,12 @@ public class BaseUtils extends FeedTest {
         }
         post.setRequestEntity(se);
         post.setRequestHeader("Content-Type","text/plain");
-        post.setRequestHeader("Authorization","Basic "+creb);
+        if (!authorization.isEmpty()){
+            for (Map.Entry<String,String> e : authorization.entrySet()){
+                post.setRequestHeader(e.getKey(),e.getValue());
+            }
+
+        }
         try {
             int code = client.executeMethod(post);
             InputStream respone = post.getResponseBodyAsStream();
@@ -199,19 +242,6 @@ public class BaseUtils extends FeedTest {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    @BeforeClass
-    public void setUp(){
-
-    }
-   @AfterClass
-    public void tearDown(){
-
-    }
-    public static long time() {
-    	return System.currentTimeMillis();
     }
 
 }

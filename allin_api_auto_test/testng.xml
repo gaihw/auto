@@ -10,12 +10,16 @@
 
     <test verbose="2" preserve-order="true" name="Test">
         <classes>
-            <class name="com.test.cases.Demo"> </class>
+            <class name="com.test.cases.Login"> </class>
+            <class name="com.test.cases.DataSecurity"> </class>
+            <class name="com.test.cases.SystemManager"> </class>
+
+
         </classes>
     </test>
+
     <listeners>
-<!--        <listener class-name="com.uiPackage.utils.TestNGListener"/>-->
-<!--        <listener class-name="com.ExtentTestNGIReporterListener"/>-->
         <listener class-name="com.test.utils.ExtentTestNGIReporterListenerTomcat"/>
+        <listener class-name="com.test.utils.testng.OverrideIAnnotationTransformer"></listener>
     </listeners>
 </suite>

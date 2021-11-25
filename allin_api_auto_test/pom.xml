@@ -186,6 +186,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.xls</include>
                     <include>**/*.yaml</include>
+                    <include>**/data/*.yaml</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>

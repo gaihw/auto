@@ -17,8 +17,9 @@ import java.io.File;
 import java.util.*;
 
 public class ExtentTestNGIReporterListenerTomcat implements IReporter {
+    public static YamlUtils instance = new YamlUtils();
     //生成的路径以及文件名
-    private static final String OUTPUT_FOLDER = Config.REPORT_TOMCAT_PATH;
+    private static final String OUTPUT_FOLDER = String.valueOf(instance.getValueByKey("report.report_tomcat_path"));
     private static final String FILE_NAME = "index.html";
 
     private ExtentReports extent;
@@ -113,8 +114,8 @@ public class ExtentTestNGIReporterListenerTomcat implements IReporter {
         //怎么样解决cdn.rawgit.com访问不了的情况
         htmlReporter.config().setResourceCDN(ResourceCDN.EXTENTREPORTS);
 
-        htmlReporter.config().setDocumentTitle("58coinAndroid自动化测试报告");
-        htmlReporter.config().setReportName("58coinAndroid自动化测试报告");
+        htmlReporter.config().setDocumentTitle(String.valueOf(instance.getValueByKey("report.report_name")));
+        htmlReporter.config().setReportName(String.valueOf(instance.getValueByKey("report.report_name")));
         htmlReporter.config().setChartVisibilityOnOpen(true);
         htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
         htmlReporter.config().setTheme(Theme.STANDARD);
@@ -148,11 +149,22 @@ public class ExtentTestNGIReporterListenerTomcat implements IReporter {
             treeSet.addAll(tests.getAllResults());
             for (ITestResult result : treeSet) {
                 Object[] parameters = result.getParameters();
-                String name="";
-                //如果有参数，则使用参数的toString组合代替报告中的name
-                for(Object param:parameters){
-                    name+=param.toString();
+                String name= "";
+                //当有参数输入时，拼接接口名称和参数，如：接口【参数1_参数2】
+                if (parameters.length != 0){
+                    name = result.getMethod().getMethodName()+"【";
                 }
+                //如果有参数，则使用参数的toString组合代替报告中的name
+                for (int i = 0; i < parameters.length; i++) {
+                    if (i != parameters.length-1){
+                        name+=parameters[i]+"_";
+                    }else {
+                        name+=parameters[i]+"】";
+                    }
+                }
+//                for(Object param:parameters){
+//                    name+=param.toString()+"_";
+//                }
                 if(name.length()>0){
                     if(name.length()>50){
                         name= name.substring(0,49)+"...";
@@ -168,8 +180,9 @@ public class ExtentTestNGIReporterListenerTomcat implements IReporter {
                 }
                 //test.getModel().setDescription(description.toString());
                 //test = extent.createTest(result.getMethod().getMethodName());
-                for (String group : result.getMethod().getGroups())
+                for (String group : result.getMethod().getGroups()) {
                     test.assignCategory(group);
+                }
 
                 List<String> outputList = Reporter.getOutput(result);
                 for(String output:outputList){
