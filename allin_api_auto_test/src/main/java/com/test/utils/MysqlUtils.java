@@ -10,7 +10,7 @@ public class MysqlUtils {
 	public YamlUtils instance = new YamlUtils();
 	public static void main(String[] args) {
 //		System.out.println(new MysqlUtils().select("SELECT * FROM `allin_test`.`test_date`  LIMIT 0,1000"));
-		System.out.println(new MysqlUtils().insert("INSERT INTO `allin_test`.`test_date` (`year`, `month`, `day`) VALUES (2008, 4, 4)"));
+		System.out.println(new MysqlUtils().insert("INSERT INTO `allin_test`.`test_date` (`year`, `month`, `day`) VALUES (2008, 4, 4),(2008, 4, 4),(2008, 4, 4)"));
 	}
 
 	String url = "";
